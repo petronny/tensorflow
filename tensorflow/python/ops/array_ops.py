@@ -22,6 +22,7 @@ from __future__ import print_function
 import numbers
 import numpy as np
 
+import tensorflow
 from tensorflow.python.eager import context
 from tensorflow.python.framework import common_shapes
 from tensorflow.python.framework import composite_tensor
@@ -2893,7 +2894,7 @@ def matrix_set_diag(
 
 def _constant_if_small(value, shape, dtype, name):
   try:
-    if np.prod(shape) < 1000:
+    if tensorflow.math.reduce_prod(shape) < 1000:
       return constant(value, shape=shape, dtype=dtype, name=name)
   except TypeError:
     # Happens when shape is a Tensor, list with Tensor elements, etc.
